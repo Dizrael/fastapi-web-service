@@ -1,11 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from model.explorer import Explorer
 import fake.explorer as service
+from errors import Missing, Duplicate
 
 
 router = APIRouter(prefix="/explorers")
 
 
+@router.get("")
 @router.get("/")
 def get_all() -> list[Explorer]:
     return service.get_all()
@@ -13,25 +15,32 @@ def get_all() -> list[Explorer]:
 
 @router.get("/{name}")
 def get_one(name) -> Explorer | None:
-    return service.get_one(name)
+    try:
+        return service.get_one(name)
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
 
 
 # все остальные конечные точки пока ничего не делают:
 @router.post("/")
 def create(explorer: Explorer) -> Explorer:
-    return service.create(explorer)
+    try:
+        return service.create(explorer)
+    except Duplicate as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
 
 
 @router.patch("/")
 def modify(explorer: Explorer) -> Explorer:
-    return service.modify(explorer)
-
-
-@router.put("/")
-def replace(explorer: Explorer) -> Explorer:
-    return service.replace(explorer)
+    try:
+        return service.modify(explorer)
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
 
 
 @router.delete("/{name}")
 def delete(name: str):
-    return None
+    try:
+        return service.delete(name)
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
