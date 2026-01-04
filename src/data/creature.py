@@ -60,7 +60,6 @@ def modify(creature: Creature):
              WHERE name = :name_orig
           """
     params = model_to_dict(creature)
-    test=">"
     params["name_orig"] = creature.name
     _ = curs.execute(qry, params)
     return get_one(creature.name)
