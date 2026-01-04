@@ -14,7 +14,7 @@ def get_db(name: str | None = None, reset: bool = False):
             return
         conn = None
     if not name:
-        top_dir = Path(__file__).resolve().parent # repo top
+        top_dir = Path(__file__).resolve().parent  # repo top
         db_dir = top_dir / "db"
         db_name = "cryptid.db"
         db_path = str(db_dir / db_name)
