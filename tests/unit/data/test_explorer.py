@@ -6,17 +6,16 @@ from errors import Duplicate, Missing
 os.environ["CRYPTID_SQLITE_DB"] = ":memory:"
 from data import explorer, init
 
+
 @pytest.fixture(scope="module")
 def init_db():
     init.get_db()
 
+
 @pytest.fixture
 def sample() -> Explorer:
-    return Explorer(
-        name="Valera",
-        description="Test Explorer",
-        country="RU"
-    )
+    return Explorer(name="Valera", description="Test Explorer", country="RU")
+
 
 def test_create(sample):
     resp = explorer.create(sample)

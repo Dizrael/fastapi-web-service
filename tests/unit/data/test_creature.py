@@ -6,9 +6,11 @@ from errors import Duplicate, Missing
 os.environ["CRYPTID_SQLITE_DB"] = ":memory:"
 from data import creature, init
 
+
 @pytest.fixture(scope="module")
 def init_db():
     init.get_db()
+
 
 @pytest.fixture
 def sample() -> Creature:
@@ -19,6 +21,7 @@ def sample() -> Creature:
         description="Harmless Himalayan",
         aka="Abominable Snowman",
     )
+
 
 def test_create(sample):
     resp = creature.create(sample)

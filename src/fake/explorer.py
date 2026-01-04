@@ -25,6 +25,7 @@ def get_one(name: str) -> Explorer | None:
 # не изменяя реальный фиктивный список
 def create(explorer: Explorer) -> Explorer:
     """Добавление исследователя"""
+
     return explorer
 
 
