@@ -1,11 +1,13 @@
 import uvicorn
 from fastapi import FastAPI
-from src.web import explorer, creature
+from src.web import explorer, creature, user
+import settings
 
 
 app = FastAPI()
 app.include_router(explorer.router)
 app.include_router(creature.router)
+app.include_router(user.router)
 
 
 @app.get("/")
@@ -19,4 +21,4 @@ def echo(thing):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", reload=True)
+    uvicorn.run("main:app", reload=True, log_config=settings.LOGGING_CONFIG)
